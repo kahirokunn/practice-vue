@@ -20,7 +20,6 @@ try {
  */
 
 window.axios = require('axios');
-
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**
@@ -36,6 +35,9 @@ if (token) {
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
+
+window.Vue = require('vue');
+window.Vue.prototype.$http = window.axios;
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

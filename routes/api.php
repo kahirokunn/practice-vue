@@ -19,7 +19,3 @@ Route::group(['middleware' => 'api'], function() {
         return $articles;
     });
 });
-
-Route::group(['middleware' => 'api'], function() {
-    Route::get('articles',  'ArticleController@index');
-});
