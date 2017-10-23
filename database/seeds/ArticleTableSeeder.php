@@ -11,7 +11,7 @@ class ArticleTableSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 1; $i <= 100; $i++) {
             DB::table('articles')->insert([
                 'user_id' => 1,
                 'content' => $i . '番目の本文です。',
