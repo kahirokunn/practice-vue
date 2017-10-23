@@ -40,11 +40,10 @@
         type: Function,
         default: function (page) {
         }
-      }
-    },
-    data() {
-      return {
-        offset: 3
+      },
+      offset: {
+        type: Number,
+        default: 4
       }
     },
     computed: {

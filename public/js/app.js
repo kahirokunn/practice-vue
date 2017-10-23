@@ -46021,14 +46021,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     callback: {
       type: Function,
       default: function _default(page) {}
+    },
+    offset: {
+      type: Number,
+      default: 4
     }
   },
-  data: function data() {
-    return {
-      offset: 3
-    };
-  },
-
   computed: {
     getCurrentPageNumber: function getCurrentPageNumber() {
       return this.pagination.current_page;

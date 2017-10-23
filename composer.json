@@ -52,6 +52,10 @@
         "post-update-cmd":[
             "php artisan ide-helper:generate",
             "php artisan optimize"
+        ],
+        "post-install-cmd":[
+            "php artisan ide-helper:generate",
+            "php artisan optimize"
         ]
     },
     "config": {
