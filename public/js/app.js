@@ -11663,6 +11663,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('navbar', __webpack_require__(40));
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('float-box', __webpack_require__(60));
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('simple-navbar', __webpack_require__(63));
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('laravel-format-pagination', __webpack_require__(67));
 
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
   mode: 'history',
@@ -45391,25 +45392,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
-    this.page = 1;
-    this.fetchArticles();
+    this.fetchArticles(1);
   },
   data: function data() {
     return {
       articles: this.articles,
-      page: this.page
+      pagination: this.pagination
     };
   },
 
   methods: {
-    fetchArticles: function fetchArticles() {
+    fetchArticles: function fetchArticles(page) {
       var _this = this;
 
-      this.$http.get('/api/articles', { params: { page: this.page } }).then(function (res) {
-        _this.articles = res.data.data;
+      this.$http.get('/api/articles', { params: { page: page } }).then(function (res) {
+        _this.pagination = res.data;
+        _this.articles = _this.pagination.data;
       });
     }
   }
@@ -45429,18 +45433,36 @@ var render = function() {
     _c(
       "section",
       { staticClass: "content" },
-      _vm._l(_vm.articles, function(article) {
-        return _c(
-          "div",
-          { staticClass: "row" },
-          [
-            _c("float-box", {
-              attrs: { title: article.title, body: article.content }
-            })
-          ],
-          1
-        )
-      })
+      [
+        _vm._l(_vm.articles, function(article) {
+          return _c(
+            "div",
+            { staticClass: "row" },
+            [
+              _c("float-box", {
+                attrs: { title: article.title, body: article.content }
+              })
+            ],
+            1
+          )
+        }),
+        _vm._v(" "),
+        _vm.pagination
+          ? _c(
+              "div",
+              [
+                _c("laravel-format-pagination", {
+                  attrs: {
+                    pagination: _vm.pagination,
+                    callback: _vm.fetchArticles
+                  }
+                })
+              ],
+              1
+            )
+          : _vm._e()
+      ],
+      2
     )
   ])
 }
@@ -45903,6 +45925,261 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   }
 });
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(68)
+/* template */
+var __vue_template__ = __webpack_require__(69)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/widgets/pagination/LaravelFormatPagination.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-38f97a3d", Component.options)
+  } else {
+    hotAPI.reload("data-v-38f97a3d", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 68 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    pagination: {
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    },
+    // 引数にpage numberを設定することによりアイテムリストを更新するメソッドが必要です
+    callback: {
+      type: Function,
+      default: function _default(page) {}
+    }
+  },
+  data: function data() {
+    return {
+      offset: 3
+    };
+  },
+
+  computed: {
+    getCurrentPageNumber: function getCurrentPageNumber() {
+      return this.pagination.current_page;
+    },
+    getPagesNumber: function getPagesNumber() {
+      if (!this.pagination.to) return [];
+
+      var from = this.pagination.current_page - this.offset;
+      if (from < 1) from = 1;
+
+      var to = from + this.offset * 2;
+      if (to >= this.pagination.last_page) to = this.pagination.last_page;
+
+      var pagesArray = [];
+      while (from <= to) {
+        pagesArray.push(from);
+        from++;
+      }
+      return pagesArray;
+    }
+  },
+  methods: {
+    changePage: function changePage(page) {
+      this.pagination.current_page = page;
+      this.callback(page);
+    }
+  }
+});
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("nav", [
+    _c(
+      "ul",
+      { staticClass: "pagination" },
+      [
+        _vm.pagination.per_page > 1
+          ? _c(
+              "li",
+              { class: { disabled: !(_vm.pagination.current_page > 1) } },
+              [
+                _vm.pagination.current_page > 1
+                  ? _c(
+                      "a",
+                      {
+                        attrs: { href: "#", "aria-label": "Previous" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.changePage(_vm.pagination.current_page - 1)
+                          }
+                        }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("«")
+                        ])
+                      ]
+                    )
+                  : _c(
+                      "a",
+                      { attrs: { href: "#", "aria-label": "Previous" } },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("«")
+                        ])
+                      ]
+                    )
+              ]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm._l(_vm.getPagesNumber, function(page) {
+          return _c(
+            "li",
+            { class: [page == _vm.getCurrentPageNumber ? "active" : ""] },
+            [
+              _c(
+                "a",
+                {
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.changePage(page)
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(page))]
+              )
+            ]
+          )
+        }),
+        _vm._v(" "),
+        _vm.pagination.per_page > 1
+          ? _c(
+              "li",
+              {
+                class: {
+                  disabled: !(
+                    _vm.pagination.current_page < _vm.pagination.last_page
+                  )
+                }
+              },
+              [
+                _vm.pagination.current_page < _vm.pagination.last_page
+                  ? _c(
+                      "a",
+                      {
+                        attrs: { href: "#", "aria-label": "Next" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.changePage(_vm.pagination.current_page + 1)
+                          }
+                        }
+                      },
+                      [
+                        _c("span", { attrs: { "aria-hidden": "true" } }, [
+                          _vm._v("»")
+                        ])
+                      ]
+                    )
+                  : _c("a", { attrs: { href: "#", "aria-label": "Next" } }, [
+                      _c("span", { attrs: { "aria-hidden": "true" } }, [
+                        _vm._v("»")
+                      ])
+                    ])
+              ]
+            )
+          : _vm._e()
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-38f97a3d", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

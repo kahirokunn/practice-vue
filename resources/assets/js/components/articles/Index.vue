@@ -10,6 +10,9 @@
       <div v-for="article in articles" class="row">
         <float-box :title="article.title" :body="article.content"></float-box>
       </div>
+      <div v-if="pagination">
+        <laravel-format-pagination :pagination="pagination" :callback="fetchArticles"></laravel-format-pagination>
+      </div>
     </section>
   </div>
 </template>
@@ -17,20 +20,20 @@
 <script>
   export default {
     created() {
-      this.page = 1;
-      this.fetchArticles()
+      this.fetchArticles(1)
     },
     data() {
       return {
         articles: this.articles,
-        page: this.page,
+        pagination: this.pagination
       }
     },
     methods: {
-      fetchArticles() {
-        this.$http.get('/api/articles', {params: {page: this.page}})
+      fetchArticles(page) {
+        this.$http.get('/api/articles', {params: {page: page}})
           .then(res => {
-            this.articles = res.data.data
+            this.pagination = res.data
+            this.articles = this.pagination.data
           })
       }
     }
