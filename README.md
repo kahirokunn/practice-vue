@@ -1,4 +1,4 @@
-## Demo:
+## The box and pagination widget demo:
 
 ![](https://github.com/k-okina/practice-vue/blob/master/demo.gif)
 
@@ -15,7 +15,6 @@ git clone https://github.com/k-okina/practice-vue.git
 cd practice-vue
 
 composer install
-
 ```
 
 ### 2.Setup Database
