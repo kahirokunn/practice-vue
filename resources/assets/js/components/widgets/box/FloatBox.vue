@@ -20,7 +20,7 @@
       body: {
         type: [String, Number],
         default: 'empty body'
-      },
+      }
     },
     computed: { // 依存関係にある値が変更された際のみ再算出
       getTitle: function () {

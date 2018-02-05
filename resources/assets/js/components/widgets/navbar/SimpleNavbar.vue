@@ -8,7 +8,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/" style="color: white">{{ title }}</a>
+        <router-link class="navbar-brand" to="/" style="color: white">{{ title }}</router-link>
       </div>
 
       <div class="collapse navbar-collapse" id="navbarEexample">
