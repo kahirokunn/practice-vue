@@ -7,7 +7,7 @@
     </section>
 
     <section class="content">
-      <div v-for="article in articles" class="row">
+      <div v-for="(id, article) in articles" class="row" :key="id">
         <float-box :title="article.title" :body="article.content"></float-box>
       </div>
       <div v-if="pagination">
